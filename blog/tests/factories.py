@@ -1,25 +1,23 @@
 import factory
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from blog.models import Post
 
-# Fábrica de Usuários
+# Puxa dinamicamente o Custom User (core.User)
+User = get_user_model()
+
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = User
+        model = User # Agora a Factory aponta para a tabela certa (core_user)
 
-    # O Sequence garante que cada usuário gerado terá um nome único (usuario0, usuario1...)
     username = factory.Sequence(lambda n: f'usuario{n}')
-    email = factory.LazyAttribute(lambda o: f'{o.username}@exemplo.com')
+    email = factory.Sequence(lambda n: f'usuario{n}@mercado.com')
 
-# Fábrica de Posts
 class PostFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Post
 
-    title = factory.Sequence(lambda n: f'Post de Teste {n}')
-    slug = factory.Sequence(lambda n: f'post-de-teste-{n}')
-    content = "Conteúdo gerado automaticamente pelo Factory Boy para testes."
-    status = 1
+    title = factory.Faker('sentence')
+    slug = factory.Faker('slug')
     
-    # A MÁGICA: Sempre que criarmos um Post, ele automaticamente cria um User para ser o autor!
+    # Ao criar um Post, cria um Custom User associado automaticamente
     author = factory.SubFactory(UserFactory)

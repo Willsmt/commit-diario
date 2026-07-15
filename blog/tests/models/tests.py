@@ -12,7 +12,7 @@ def test_post_foi_criado_com_sucesso():
     # ASSERT: Verificamos se deu tudo certo usando Python puro
     assert post.title == "Dominando o Pytest"
     assert post.slug == "dominando-o-pytest"
-    assert post.status == 1
+    assert post.status == 0
     
     # Verificando se o relacionamento funcionou (o usuário deve ter um nome gerado pela fábrica)
     assert post.author.username.startswith("usuario")
