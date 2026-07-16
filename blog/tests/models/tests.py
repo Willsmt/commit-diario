@@ -1,6 +1,7 @@
 import pytest
-from .factories import PostFactory
+from ..factories import PostFactory
 
+# Create your tests here.
 # O marcador @pytest.mark.django_db dá permissão para o teste acessar o banco temporário
 @pytest.mark.django_db
 def test_post_foi_criado_com_sucesso():
