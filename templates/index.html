@@ -1,8 +1,55 @@
 {% extends "base.html" %}
 
-{% block title %}Página Inicial - Meu Projeto Django{% endblock %}
+{% block extra_css %}
+<style>
+    /* No mercado, isso idealmente fica no style.css, mas se for estritamente local: */
+    .masthead-custom {
+        background: linear-gradient(135deg, #3398E1, #1a5b8a);
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-    <h1>Bem-vindo ao Repositório de Estudos</h1>
-    <p>Este conteúdo está a ser injetado de forma dinâmica dentro do esqueleto do template base.</p>
+<header class="masthead-custom py-5 mb-4 rounded-3 text-center text-white shadow-sm">
+    <div class="container py-4">
+        <h1 class="fw-bold mb-2">Bem-vindo ao Repositório de Estudos</h1>
+        <p class="lead mb-0">Documentando engenharia de software e Django Avançado.</p>
+    </div>
+</header>
+
+<div class="container px-0">
+    <div class="row">
+        <div class="col-lg-8 mb-4">
+            
+            {% for post in post_list %}
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <h2 class="card-title h4 fw-bold">{{ post.title }}</h2>
+                    
+                    <p class="card-text text-muted small mb-3">
+                        Por <strong>{{ post.author }}</strong> | {{ post.created_on|date:"d/m/Y \à\s H:i" }}
+                    </p>
+                    
+                    <p class="card-text">{{ post.content|truncatewords:35 }}</p>
+                    
+                    <a href="{% url 'blog:post_detail' post.slug %}" class="btn btn-outline-primary btn-sm">
+                        Ler artigo completo &rarr;
+                    </a>
+                </div>
+            </div>
+            
+            {% empty %}
+            <div class="alert alert-info text-center border-0 shadow-sm" role="alert">
+                <h5 class="alert-heading mb-1">Nenhum estudo documentado ainda.</h5>
+                <p class="mb-0 small">Acesse o painel administrativo para criar sua primeira anotação.</p>
+            </div>
+            {% endfor %}
+            
+        </div>
+
+        <div class="col-lg-4">
+            {% include 'sidebar.html' %}
+        </div>
+    </div>
+</div>
 {% endblock %}
