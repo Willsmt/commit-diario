@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Projeto Django{% endblock %}</title>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="/">Início</a>
+            <a href="/blog/">Blog</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; {% now "Y" %} - Todos os direitos reservados.</p>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

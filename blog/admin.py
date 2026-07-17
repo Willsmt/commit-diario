@@ -1,16 +1,18 @@
 from django.contrib import admin
-from .models import Post
+from .models import Post, Comment
+
+# Configurando os comentários na mesma tela do Post
+class CommentInline(admin.TabularInline):
+    model = Comment
+    extra = 1
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    # Colunas que vão aparecer na listagem do painel
-    list_display = ('title', 'slug', 'status', 'created_on')
-    
-    # Filtros laterais para facilitar a busca
+    list_display = ('title','slug', 'author','status', 'created_on')
     list_filter = ('status', 'created_on')
+    search_fields = ('title', 'content')
     
-    # Barra de pesquisa para buscar posts por título ou conteúdo
-    search_fields = ['title', 'content']
-    
-    # Preenche o campo 'slug' automaticamente enquanto você digita o título!
+    # Preenchimento automático do slug na interface visual do Admin
     prepopulated_fields = {'slug': ('title',)}
+
+    inlines = [CommentInline]
